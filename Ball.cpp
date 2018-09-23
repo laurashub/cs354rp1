@@ -18,6 +18,7 @@ class Ball{
 		void move(const Ogre::FrameEvent& evt);
 		Ogre::SceneNode* getNode(){return ballNode;}
 		void setRoom(Room* r);
+		void makeSound(bool collision);
 };
 
 Ball::Ball(Ogre::SceneManager* scnMgr){
@@ -26,7 +27,7 @@ Ball::Ball(Ogre::SceneManager* scnMgr){
 	ballNode = scnMgr->getRootSceneNode()->createChildSceneNode();
 	ballNode->attachObject(ball); 
 	ballNode->scale(0.1f,0.1f,0.1f); 
-	bRadius = 5.0f; 
+	bRadius = 10.0f; 
 	bDirection = Ogre::Vector3(1.0f, 2.0f, 3.0f); 
 	bDirection.normalise(); 
 	bSpeed = 50.0f;
@@ -34,6 +35,7 @@ Ball::Ball(Ogre::SceneManager* scnMgr){
 
 void Ball::move(const Ogre::FrameEvent& evt) { 
 	Ogre::Vector3 bPosition = ballNode->getPosition(); 
+	Ogre::Vector3 bPrevDirection = bDirection; 
 	if (room){
 	if (bPosition.y < -room->getMaxHeight() + bRadius && bDirection.y < 0.0f) bDirection.y = -bDirection.y; 
 	if (bPosition.y > room->getMinHeight() - bRadius && bDirection.y > 0.0f) bDirection.y = -bDirection.y; 
@@ -42,7 +44,16 @@ void Ball::move(const Ogre::FrameEvent& evt) {
 	if (bPosition.x < -room->getLeftMost() + bRadius && bDirection.x < 0.0f) bDirection.x = -bDirection.x; 
 	if (bPosition.x > room->getRightMost() - bRadius && bDirection.x > 0.0f) bDirection.x = -bDirection.x; 
 	}
+
+	bool collision = bPrevDirection != bDirection;
+
+	makeSound(collision);
+
 	ballNode->translate(bSpeed * evt.timeSinceLastFrame * bDirection); 
+}
+
+void Ball::makeSound(bool collision){
+
 }
 
 void Ball::setRoom(Room* r){
