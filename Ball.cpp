@@ -31,6 +31,7 @@ Ball::Ball(Ogre::SceneManager* scnMgr){
 	bDirection = Ogre::Vector3(1.0f, 2.0f, 3.0f); 
 	bDirection.normalise(); 
 	bSpeed = 50.0f;
+
 }
 
 void Ball::move(const Ogre::FrameEvent& evt) { 

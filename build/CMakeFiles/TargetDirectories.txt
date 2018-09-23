@@ -1,3 +1,0 @@
-/u/laura/354r/p1BallInRoom/build/CMakeFiles/edit_cache.dir
-/u/laura/354r/p1BallInRoom/build/CMakeFiles/rebuild_cache.dir
-/u/laura/354r/p1BallInRoom/build/CMakeFiles/BallInRoom.dir

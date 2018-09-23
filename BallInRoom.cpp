@@ -4,6 +4,7 @@
 #include <OgreInput.h>
 #include "Ball.cpp"
 
+
 class BallInRoom : 
     public OgreBites::ApplicationContext, 
     public OgreBites::InputListener
@@ -70,25 +71,30 @@ void BallInRoom::setup(void)
         Ogre::RTShader::ShaderGenerator::getSingletonPtr();
     shadergen->addSceneManager(scnMgr);
 
-    
+    scnMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
+    scnMgr->setShadowColour( Ogre::ColourValue(0.5, 0.5, 0.5) );
+      
     Ogre::Light* light = scnMgr->createLight("MainLight");
+    light->setCastShadows(true);
+
     Ogre::SceneNode* lightNode = 
         scnMgr->getRootSceneNode()->createChildSceneNode();
     lightNode->setPosition(20, 80, 50);
     lightNode->attachObject(light); 
 
-    Ogre::SceneNode *camNode = 
-        scnMgr->getRootSceneNode()->createChildSceneNode();
-    camNode->setPosition(0,0,150);
-    camNode->lookAt(Ogre::Vector3(0, 0, 50), Ogre::Node::TS_PARENT);
+    Ogre::SceneNode *bNode = ball->getNode(); 
+    Ogre::SceneNode *camNode = bNode->createChildSceneNode();
+    camNode->setPosition(200,200,700);
+    camNode->lookAt(Ogre::Vector3(0, 0, -50), Ogre::Node::TS_PARENT);
 
     Ogre::Camera* cam = scnMgr->createCamera("myCam");
-    cam->setNearClipDistance(5);
+    cam->setNearClipDistance(1);
     cam->setAutoAspectRatio(true);
     camNode->attachObject(cam);
 
     getRenderWindow()->addViewport(cam);
-}
+
+ }
 
 
 //! [setup]
